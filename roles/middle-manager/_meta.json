@@ -1,0 +1,18 @@
+{
+  "name": "middle-manager",
+  "version": "1.0.0",
+  "description": "中层管理者能力提升与实践指导",
+  "author": "OpenClaw",
+  "tags": ["management", "leadership", "team-management", "project-management", "product-management"],
+  "capabilities": [
+    "knowledge_base",
+    "templates",
+    "scripts",
+    "database"
+  ],
+  "dependencies": [],
+  "engines": {
+    "openclaw": ">=1.0.0"
+  },
+  "license": "MIT"
+}

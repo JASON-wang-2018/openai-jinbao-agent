@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "skills": {
+    "find-skills": {
+      "version": "0.1.0",
+      "installedAt": 1771261199498
+    },
+    "proactive-agent": {
+      "version": "3.1.0",
+      "installedAt": 1771261204689
+    },
+    "tavily-search": {
+      "version": "1.0.0",
+      "installedAt": 1771261206675
+    },
+    "reasoning-personas": {
+      "version": "1.0.0",
+      "installedAt": 1771261208513
+    },
+    "self-reflection": {
+      "version": "1.1.1",
+      "installedAt": 1771261211148
+    },
+    "self-evolve": {
+      "version": "1.0.0",
+      "installedAt": 1771261213293
+    },
+    "adaptive-learning-agents": {
+      "version": "1.0.0",
+      "installedAt": 1771261215424
+    },
+    "memory-system-v2": {
+      "version": "1.0.0",
+      "installedAt": 1771720621459
+    }
+  }
+}

@@ -1,0 +1,9 @@
+# 忽略文件
+tushare_env/
+*.pyc
+__pycache__/
+stock/data/cache/
+*.log
+.DS_Store
+node_modules/
+.env

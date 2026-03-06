@@ -1,0 +1,99 @@
+{
+  "issues": [
+    {
+      "id": 1,
+      "title": "记忆文件连续性问题",
+      "description": "记忆文件创建依赖手动触发，导致文件缺失",
+      "priority": "high",
+      "status": "resolved",
+      "firstReported": "2026-02-17",
+      "recurrenceCount": 3,
+      "lastRecurrence": "2026-02-24",
+      "rootCause": "缺少自动化机制",
+      "solution": "创建 heartbeat_checks.sh 脚本自动创建缺失文件",
+      "created": "2026-02-24T10:36:00+08:00",
+      "updated": "2026-02-24T13:56:00+08:00",
+      "resolvedAt": "2026-02-24T13:56:00+08:00"
+    },
+    {
+      "id": 2,
+      "title": "数据源限制问题",
+      "description": "akshare 只能提供上证指数实时数据，深证成指和创业板指缺少实时接口",
+      "priority": "medium",
+      "status": "open",
+      "firstReported": "2026-02-24",
+      "recurrenceCount": 1,
+      "lastRecurrence": "2026-02-24",
+      "rootCause": "免费数据源覆盖范围有限",
+      "solution": "研究其他数据源（Tushare、东方财富Pro），或获取专业数据源订阅",
+      "created": "2026-02-24T13:56:00+08:00",
+      "updated": "2026-02-24T13:56:00+08:00"
+    },
+    {
+      "id": 3,
+      "title": "市场数据获取速度慢",
+      "description": "已优化 - akshare网络超时导致获取失败",
+      "priority": "medium",
+      "status": "in_progress",
+      "firstReported": "2026-02-24",
+      "recurrenceCount": 1,
+      "lastRecurrence": "2026-02-24",
+      "rootCause": "akshare 数据源网络超时（WSL环境无法访问东财/新浪）",
+      "solution": "已添加超时机制（3秒），需解决网络问题或切换数据源",
+      "created": "2026-02-24T13:56:00+08:00",
+      "updated": "2026-03-04T14:50:00+08:00"
+    },
+    {
+      "id": 4,
+      "title": "数据时效性标注不清晰",
+      "description": "首次分析时使用历史收盘数据，未明确区分实时数据和历史数据",
+      "priority": "low",
+      "status": "open",
+      "firstReported": "2026-02-24",
+      "recurrenceCount": 1,
+      "lastRecurrence": "2026-02-24",
+      "rootCause": "未明确区分数据接口类型",
+      "solution": "在使用数据接口前，明确标注数据时效性（实时/历史）",
+      "created": "2026-02-24T13:56:00+08:00",
+      "updated": "2026-02-24T13:56:00+08:00"
+    },
+    {
+      "id": 5,
+      "title": "Token消耗优化",
+      "description": "系统Token消耗过快，需优化",
+      "priority": "high",
+      "status": "in_progress",
+      "firstReported": "2026-03-04",
+      "recurrenceCount": 1,
+      "lastRecurrence": "2026-03-04",
+      "rootCause": "未启用QMD、心跳频繁、技能过多",
+      "solution": "1. 启用QMD记忆系统 2. 调整心跳频率 3. 精简Skill数量 4. 任务分级模型配置 5. 提示词限制",
+      "created": "2026-03-04T14:41:00+08:00",
+      "updated": "2026-03-04T14:41:00+08:00"
+    },
+    {
+      "id": 6,
+      "title": "板块数据获取失败",
+      "description": "双系统分析时板块数据获取失败，影响主升系统第二层验证",
+      "priority": "high",
+      "status": "resolved",
+      "firstReported": "2026-03-04",
+      "recurrenceCount": 1,
+      "lastRecurrence": "2026-03-04",
+      "rootCause": "akshare 东财接口网络超时",
+      "solution": "已集成 Baostock 作为主要数据源，成功获取板块数据",
+      "created": "2026-03-04T14:08:00+08:00",
+      "updated": "2026-03-04T15:06:00+08:00"
+    }
+  ],
+  "lastUpdated": "2026-03-04T14:41:00+08:00",
+  "statistics": {
+    "total": 6,
+    "open": 4,
+    "inProgress": 1,
+    "resolved": 1,
+    "highPriority": 2,
+    "mediumPriority": 2,
+    "lowPriority": 1
+  }
+}

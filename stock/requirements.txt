@@ -1,0 +1,35 @@
+# 股票数据分析依赖
+
+## 必需依赖
+
+```bash
+pip install akshare baostock pandas numpy requests beautifulsoup4 lxml sqlalchemy
+```
+
+## 可选依赖
+
+```bash
+# 量化分析
+pip install ta-lib-binary  # 技术分析库
+
+# 图表
+pip install matplotlib plotly
+
+# 回测
+pip install backtrader zipline
+```
+
+## 数据源说明
+
+| 库 | 用途 | 特点 |
+|----|------|------|
+| akshare | A股行情、热点、资金 | 免费、稳定 |
+| baostock | 历史数据、复权数据 | 专注历史回测 |
+| tushare | 专业数据 | 需注册、有额度限制 |
+
+## 快速安装
+
+```bash
+# 一键安装全部
+pip install akshare baostock pandas numpy requests beautifulsoup4 lxml
+```

@@ -1,0 +1,16 @@
+{
+  "product": "智能电饭煲",
+  "target_cost": 180,
+  "components": [
+    {"name": "内胆", "function": "盛放米饭", "importance": 9, "current_cost": 25, "target_cost": 20},
+    {"name": "加热盘", "function": "提供热能", "importance": 9, "current_cost": 20, "target_cost": 18},
+    {"name": "外壳", "function": "保护结构", "importance": 7, "current_cost": 18, "target_cost": 15},
+    {"name": "面板", "function": "用户交互", "importance": 6, "current_cost": 15, "target_cost": 12},
+    {"name": "PCB", "function": "控制逻辑", "importance": 8, "current_cost": 20, "target_cost": 16},
+    {"name": "锅盖", "function": "密封保温", "importance": 7, "current_cost": 12, "target_cost": 10},
+    {"name": "密封圈", "function": "防漏密封", "importance": 6, "current_cost": 5, "target_cost": 4},
+    {"name": "传感器", "function": "检测温度", "importance": 7, "current_cost": 8, "target_cost": 7},
+    {"name": "电源线", "function": "供电连接", "importance": 5, "current_cost": 6, "target_cost": 5},
+    {"name": "包装", "function": "运输保护", "importance": 4, "current_cost": 15, "target_cost": 12}
+  ]
+}

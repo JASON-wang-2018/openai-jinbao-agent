@@ -1,0 +1,257 @@
+-- 中层管理者知识库数据库
+-- Database: management_knowledge.db
+
+-- =====================================================
+-- 1. 知识分类表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS knowledge_categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,           -- 分类名称
+    parent_id INTEGER DEFAULT 0,          -- 父分类ID（0为顶级）
+    description TEXT,                    -- 分类描述
+    icon TEXT,                           -- 图标
+    sort_order INTEGER DEFAULT 0,         -- 排序
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (parent_id) REFERENCES knowledge_categories(id)
+);
+
+-- =====================================================
+-- 2. 知识点表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS knowledge_points (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    category_id INTEGER NOT NULL,
+    title TEXT NOT NULL,                 -- 知识点标题
+    content TEXT,                        -- 核心内容
+    key_takeaways TEXT,                  -- 关键要点（JSON数组）
+    examples TEXT,                       -- 案例示例（JSON数组）
+    tags TEXT,                           -- 标签（逗号分隔）
+    importance INTEGER DEFAULT 3,         -- 重要程度（1-5）
+    difficulty INTEGER DEFAULT 2,         -- 难度（1-5）
+    read_count INTEGER DEFAULT 0,        -- 阅读次数
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES knowledge_categories(id)
+);
+
+-- =====================================================
+-- 3. 管理模型表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS management_models (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,           -- 模型名称
+    category TEXT NOT NULL,              -- 分类
+    description TEXT,                     -- 模型描述
+    formula TEXT,                        -- 公式/框架
+    application_scenario TEXT,           -- 应用场景
+    steps TEXT,                          -- 使用步骤（JSON数组）
+    examples TEXT,                        -- 使用案例
+    limitations TEXT,                    -- 局限性
+    resources TEXT,                      -- 参考资源
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- 4. 工具模板表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS templates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,                   -- 模板名称
+    type TEXT NOT NULL,                   -- 类型（report/checklist/sOP）
+    category TEXT,                        -- 分类
+    description TEXT,                     -- 描述
+    content_template TEXT,               -- 模板内容
+    fields TEXT,                          -- 字段说明（JSON）
+    usage_guide TEXT,                     -- 使用指南
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- 5. 案例库表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS cases (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,                  -- 案例标题
+    category TEXT NOT NULL,               -- 分类
+    problem TEXT,                         -- 问题描述
+    analysis TEXT,                        -- 分析过程
+    solution TEXT,                        -- 解决方案
+    result TEXT,                          -- 最终结果
+    lessons TEXT,                         -- 经验教训
+    tags TEXT,                            -- 标签
+    views INTEGER DEFAULT 0,              -- 浏览次数
+    rating INTEGER DEFAULT 0,             -- 评分
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- 6. 常见问题表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS faqs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question TEXT NOT NULL,               -- 问题
+    answer TEXT NOT NULL,                 -- 答案
+    category TEXT NOT NULL,               -- 分类
+    keywords TEXT,                        -- 关键词
+    views INTEGER DEFAULT 0,              -- 询问次数
+    useful_count INTEGER DEFAULT 0,      -- 有用次数
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- 7. 学习进度表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS learning_progress (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,               -- 用户标识
+    item_type TEXT NOT NULL,              -- 类型（knowledge/model/case）
+    item_id INTEGER NOT NULL,            -- 内容ID
+    status TEXT DEFAULT 'not_started',    -- 状态
+    progress_percent INTEGER DEFAULT 0, -- 进度
+    notes TEXT,                          -- 学习笔记
+    last_accessed TIMESTAMP,             -- 最后访问
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, item_type, item_id)
+);
+
+-- =====================================================
+-- 8. 收藏夹表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS favorites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    item_type TEXT NOT NULL,
+    item_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, item_type, item_id)
+);
+
+-- =====================================================
+-- 9. 技能清单表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS skills (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE,
+    category TEXT NOT NULL,
+    description TEXT,
+    level_required INTEGER,              -- 所需级别
+    sub_skills TEXT,                      -- 子技能（JSON数组）
+    related_resources TEXT,             -- 相关资源
+    practice_methods TEXT,              -- 练习方法
+    assessment_criteria TEXT,            -- 评估标准
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- 10. 行动清单表
+-- =====================================================
+CREATE TABLE IF NOT EXISTS action_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    title TEXT NOT NULL,
+    description TEXT,
+    category TEXT,
+    priority INTEGER DEFAULT 3,           -- 优先级 1-5
+    due_date DATE,
+    status TEXT DEFAULT 'pending',       -- pending/in_progress/done
+    completed_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =====================================================
+-- 索引
+-- =====================================================
+CREATE INDEX IF NOT EXISTS idx_knowledge_category ON knowledge_points(category_id);
+CREATE INDEX IF NOT EXISTS idx_knowledge_tags ON knowledge_points(tags);
+CREATE INDEX IF NOT EXISTS idx_cases_category ON cases(category_id);
+CREATE INDEX IF NOT EXISTS idx_faqs_category ON faqs(category_id);
+CREATE INDEX IF NOT EXISTS idx_progress_user ON learning_progress(user_id);
+CREATE INDEX IF NOT EXISTS idx_actions_user_status ON action_items(user_id, status);
+
+-- =====================================================
+-- 初始数据
+-- =====================================================
+
+-- 分类数据
+INSERT INTO knowledge_categories (name, parent_id, description, icon) VALUES
+('角色定位', 0, '中层管理者的角色认知', '🎯'),
+('产品设计', 0, '产品思维与方法论', '📦'),
+('项目管理', 0, '项目规划与执行', '📊'),
+('团队管理', 0, '团队建设与人才发展', '👥'),
+('向上管理', 0, '与上级有效协作', '📈'),
+('横向协作', 0, '跨部门沟通与合作', '🔗'),
+('自我管理', 0, '时间与精力管理', '🧘'),
+('职场软技能', 0, '沟通、影响力与决策', '🛠️');
+
+-- 子分类
+INSERT INTO knowledge_categories (name, parent_id, description) VALUES
+('核心角色', 1, '三大核心角色解析'),
+('工作节奏', 1, '日常工作节奏规划'),
+('需求分析', 2, '需求收集与筛选'),
+('产品迭代', 2, '产品迭代方法论'),
+('项目规划', 3, 'WBS与里程碑'),
+('进度管控', 3, '进度跟踪与风险管理'),
+('团队建设', 4, '团队发展阶段管理'),
+('绩效管理', 4, 'OKR与绩效面谈'),
+('高效汇报', 5, '汇报技巧与结构'),
+('资源争取', 5, '向上争取资源'),
+('跨部门沟通', 6, '跨部门协作方法'),
+('会议效率', 6, '高效会议技巧'),
+('时间管理', 7, '优先级与时间分配'),
+('压力管理', 7, '压力应对与调节'),
+('沟通技巧', 8, '表达与倾听'),
+('影响力', 8, '建立个人影响力'),
+('决策能力', 8, '决策流程与方法');
+
+-- 核心管理模型
+INSERT INTO management_models (name, category, description, formula, application_scenario, steps, examples) VALUES
+('SMART目标', '目标管理', '制定清晰可执行的目标', 'S+M+A+R+T', '目标设定', 
+ '["明确具体(Specific)","可衡量(Measurable)","可达成(Achievable)","相关性(Relevant)","有时限(Time-bound)"]',
+ '本季度将用户留存率从60%提升至70%'),
+('OKR目标', '目标管理', '目标与关键结果框架', 'Objective + Key Results', '季度规划',
+ '["设定目标(Objective)","分解关键结果(Key Results)","对齐公司目标","定期review","评分复盘"]',
+ 'Objective: 提升团队交付质量; KR1: 缺陷率降低30%; KR2: 准时交付率达90%'),
+('WBS分解', '项目管理', '工作分解结构', '项目→阶段→任务→活动', '项目规划',
+ '["明确项目目标","识别主要阶段","分解为工作包","分解为具体任务","分配责任和资源"]',
+ '上线项目→需求阶段→用户调研→访谈10个用户'),
+('KANO模型', '产品设计', '需求分类与优先级', '基本型→期望型→兴奋型', '需求分析',
+ '["收集用户反馈","分类需求类型","确定优先级","差异化竞争"]',
+ '基本型：登录功能; 期望型：快速登录; 兴奋型：AI推荐'),
+('5W2H分析', '问题解决', '系统化问题分析工具', 'What+Why+Who+When+Where+How+How much', '问题分析',
+ '["What: 做什么?","Why: 为什么?","Who: 谁来做?","When: 何时?","Where: 何地?","How: 怎么做?","How much: 多少?"]',
+ '团队执行力差→分析原因→制定对策'),
+('STAR法则', '沟通表达', '结构化表达框架', 'Situation+Task+Action+Result', '汇报与面试',
+ '["描述背景(S)","说明任务(T)","阐述行动(A)","展示结果(R)"]',
+ '在XX项目中担任项目经理，带领5人团队，3个月完成XX功能上线'),
+('艾森豪威尔矩阵', '时间管理', '优先级分类工具', '重要性×紧急性', '日常工作安排',
+ '["区分重要与紧急","按象限安排工作","聚焦第二象限","减少第四象限"]',
+ '重要紧急: 立即处理; 重要不紧急: 计划执行'),
+('PDCA循环', '持续改进', '质量管理循环', 'Plan→Do→Check→Act', '持续改进',
+ '["制定计划(Plan)","执行计划(Do)","检查结果(Check)","改进优化(Act)"]',
+ '质量问题→分析原因→制定对策→验证效果→标准化'),
+('SWOT分析', '战略规划', '战略分析工具', 'Strengths+Weaknesses+Opportunities+Threats', '战略制定',
+ '["分析优势(S)","识别劣势(W)","发现机会(O)","警惕威胁(T)","制定策略"]',
+ '团队能力SWOT分析'),
+('波特五力', '战略分析', '行业竞争分析', '供应商+买方+新进入者+替代品+现有竞争', '行业分析',
+ '["分析供应商议价能力","分析买方议价能力","分析新进入者威胁","分析替代品威胁","分析现有竞争"]',
+ '新业务进入决策'),
+('麦肯锡七步法', '问题解决', '问题分析与解决', '定义→分解→优先→分析→综合→沟通→实施', '复杂问题,
+ '["界定问题","分解问题","优先级排序","分析问题","综合方案","沟通实施","持续改进"]',
+ '解决团队效率问题'),
+('头脑风暴法', '创新思维', '创意产生方法', '发散→收敛→评估', '创意激发',
+ '["明确议题","自由发散","延迟评判","数量优先","收敛评估"]',
+ '产品功能创新'),
+('六顶思考帽', '团队决策', '多角度思考工具', '白+红+黑+黄+绿+蓝', '团队决策',
+ '["白帽: 事实数据","红帽: 直觉感受","黑帽: 风险问题","黄帽: 积极价值","绿帽: 创新方案","蓝帽: 总结控制"]',
+ '重大决策讨论'),
+('80/20法则', '效率提升', '帕累托法则', '80%结果来自20%原因', '效率优化',
+ '["识别关键少数","聚焦重要工作","减少无效投入","杠杆解思维"]',
+ '解决20%关键问题带来80%改善');
