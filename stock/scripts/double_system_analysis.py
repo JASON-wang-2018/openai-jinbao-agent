@@ -150,6 +150,110 @@ def get_index_data(use_cache=True):
         return None
 
 
+def get_sz_index_data(use_cache=True):
+    """
+    获取深证成指数据
+    
+    Returns:
+        dict: 深证成指数据
+    """
+    cache_key = "sz_index_data"
+    
+    if use_cache:
+        cached = cache.get(cache_key)
+        if cached:
+            logger.info("使用缓存的深证成指数据")
+            return cached
+    
+    try:
+        logger.info("获取深证成指数据...")
+        df = ak.stock_zh_index_daily(symbol="sz399001")
+        
+        if df.empty:
+            logger.error("深证成指数据为空")
+            return None
+        
+        close = df['close'].iloc[-1]
+        ma10 = df['close'].rolling(10).mean().iloc[-1]
+        ma20 = df['close'].rolling(20).mean().iloc[-1]
+        ma60 = df['close'].rolling(60).mean().iloc[-1]
+        
+        ma20_prev = df['close'].rolling(20).mean().iloc[-2] if len(df) > 1 else ma20
+        ma60_prev = df['close'].rolling(60).mean().iloc[-2] if len(df) > 1 else ma60
+        
+        data = {
+            'close': round(close, 2),
+            'ma10': round(ma10, 2),
+            'ma20': round(ma20, 2),
+            'ma60': round(ma60, 2),
+            'ma20_trend': 'up' if ma20 > ma20_prev else ('down' if ma20 < ma20_prev else 'flat'),
+            'ma60_trend': 'up' if ma60 > ma60_prev else ('down' if ma60 < ma60_prev else 'flat'),
+            'index_strong_trend': ma20 > ma60 and close > ma10,
+            'close_ma10_pct': round((close - ma10) / ma10 * 100, 2),
+            'update_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        cache.set(cache_key, data)
+        logger.info(f"深证成指数据获取成功：收盘={data['close']}, 强趋势={data['index_strong_trend']}")
+        return data
+        
+    except Exception as e:
+        logger.error(f"获取深证成指数据失败：{e}")
+        return None
+
+
+def get_cy_index_data(use_cache=True):
+    """
+    获取创业板指数据
+    
+    Returns:
+        dict: 创业板指数据
+    """
+    cache_key = "cy_index_data"
+    
+    if use_cache:
+        cached = cache.get(cache_key)
+        if cached:
+            logger.info("使用缓存的创业板指数据")
+            return cached
+    
+    try:
+        logger.info("获取创业板指数据...")
+        df = ak.stock_zh_index_daily(symbol="sz399006")
+        
+        if df.empty:
+            logger.error("创业板指数据为空")
+            return None
+        
+        close = df['close'].iloc[-1]
+        ma10 = df['close'].rolling(10).mean().iloc[-1]
+        ma20 = df['close'].rolling(20).mean().iloc[-1]
+        ma60 = df['close'].rolling(60).mean().iloc[-1]
+        
+        ma20_prev = df['close'].rolling(20).mean().iloc[-2] if len(df) > 1 else ma20
+        ma60_prev = df['close'].rolling(60).mean().iloc[-2] if len(df) > 1 else ma60
+        
+        data = {
+            'close': round(close, 2),
+            'ma10': round(ma10, 2),
+            'ma20': round(ma20, 2),
+            'ma60': round(ma60, 2),
+            'ma20_trend': 'up' if ma20 > ma20_prev else ('down' if ma20 < ma20_prev else 'flat'),
+            'ma60_trend': 'up' if ma60 > ma60_prev else ('down' if ma60 < ma60_prev else 'flat'),
+            'index_strong_trend': ma20 > ma60 and close > ma10,
+            'close_ma10_pct': round((close - ma10) / ma10 * 100, 2),
+            'update_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        cache.set(cache_key, data)
+        logger.info(f"创业板指数据获取成功：收盘={data['close']}, 强趋势={data['index_strong_trend']}")
+        return data
+        
+    except Exception as e:
+        logger.error(f"获取创业板指数据失败：{e}")
+        return None
+
+
 def get_market_emotion(use_cache=True):
     """
     获取市场情绪数据
@@ -579,9 +683,39 @@ def generate_report(output_json=False):
     else:
         print(f"  ❌ 指数数据获取失败")
     
+    # 获取深证成指和创业板指
+    sz_data = get_sz_index_data()
+    cy_data = get_cy_index_data()
+    
+    # 输出深证成指
+    print(f"\n{'='*70}")
+    print(f"【二、深证成指】")
+    print(f"{'='*70}")
+    if sz_data:
+        print(f"  收盘价：  {sz_data['close']:.2f}")
+        print(f"  MA10:     {sz_data['ma10']:.2f} ({sz_data['close_ma10_pct']:+.2f}%)")
+        print(f"  MA20:     {sz_data['ma20']:.2f}")
+        print(f"  MA60:     {sz_data['ma60']:.2f}")
+        print(f"  强趋势：  {'✅ 是' if sz_data['index_strong_trend'] else '❌ 否'}")
+    else:
+        print(f"  ❌ 深证成指数据获取失败")
+    
+    # 输出创业板指
+    print(f"\n{'='*70}")
+    print(f"【三、创业板指】")
+    print(f"{'='*70}")
+    if cy_data:
+        print(f"  收盘价：  {cy_data['close']:.2f}")
+        print(f"  MA10:     {cy_data['ma10']:.2f} ({cy_data['close_ma10_pct']:+.2f}%)")
+        print(f"  MA20:     {cy_data['ma20']:.2f}")
+        print(f"  MA60:     {cy_data['ma60']:.2f}")
+        print(f"  强趋势：  {'✅ 是' if cy_data['index_strong_trend'] else '❌ 否'}")
+    else:
+        print(f"  ❌ 创业板指数据获取失败")
+    
     # 输出情绪数据
     print(f"\n{'='*70}")
-    print(f"【二、市场情绪】")
+    print(f"【四、市场情绪】")
     print(f"{'='*70}")
     if emotion_data:
         print(f"  涨停家数：  {emotion_data['zt_count']} 家")
@@ -593,7 +727,7 @@ def generate_report(output_json=False):
     
     # 输出板块
     print(f"\n{'='*70}")
-    print(f"【三、涨幅前 10 板块】")
+    print(f"【五、涨幅前 10 板块】")
     print(f"{'='*70}")
     if boards:
         for i, board in enumerate(boards, 1):
@@ -603,7 +737,7 @@ def generate_report(output_json=False):
     
     # 检查主升系统
     print(f"\n{'='*70}")
-    print(f"【四、主升系统验证】")
+    print(f"【六、主升系统验证】")
     print(f"{'='*70}")
     main_result = check_main_system(index_data, boards, emotion_data)
     print(f"  第一层 (指数强趋势):     {'✅' if main_result['layer1_index_trend'] else '❌'} - {main_result['layer1_detail']}")
@@ -618,7 +752,7 @@ def generate_report(output_json=False):
     
     # 检查冰点系统
     print(f"\n{'='*70}")
-    print(f"【五、冰点系统验证】")
+    print(f"【七、冰点系统验证】")
     print(f"{'='*70}")
     ice_result = check_ice_system(emotion_data)
     print(f"  连板≤2:        {'✅' if ice_result['lianban_le_2'] else '❌'}")
@@ -631,7 +765,7 @@ def generate_report(output_json=False):
     
     # 最终结论
     print(f"\n{'='*70}")
-    print(f"【六、最终结论】")
+    print(f"【八、最终结论】")
     print(f"{'='*70}")
     if main_result['final_signal']:
         print(f"  🟢 主升系统触发 - 可开仓")
@@ -648,7 +782,7 @@ def generate_report(output_json=False):
     
     # 操作纪律
     print(f"\n{'='*70}")
-    print(f"【七、操作纪律】")
+    print(f"【九、操作纪律】")
     print(f"{'='*70}")
     if main_result['final_signal']:
         print(f"  ✓ 仓位：    {position}")
@@ -667,7 +801,7 @@ def generate_report(output_json=False):
     
     # 次日关注点
     print(f"\n{'='*70}")
-    print(f"【八、次日关注】")
+    print(f"【十、次日关注】")
     print(f"{'='*70}")
     if index_data:
         print(f"  1. 指数能否站稳 MA10 ({index_data['ma10']:.2f})")
