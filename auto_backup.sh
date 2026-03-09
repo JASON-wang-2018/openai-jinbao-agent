@@ -1,6 +1,7 @@
 #!/bin/bash
 # 自动备份脚本
 # 功能：备份知识库、脚本、模型配置等关键文件
+# 流程：1. GitHub推送 2. 本地备份
 
 set -e
 
@@ -17,11 +18,26 @@ echo "========================================"
 echo "📦 OpenClaw 自动备份"
 echo "========================================"
 echo "备份时间：$(date '+%Y-%m-%d %H:%M:%S')"
-echo "备份目录：$BACKUP_DIR"
 echo ""
 
-# 创建备份目录
-mkdir -p "$BACKUP_DIR"
+# ===== 第1步：GitHub推送 =====
+echo "📤 推送到GitHub..."
+cd "$WORKSPACE"
+# 检查是否有未提交的更改
+if git diff --quiet && git diff --cached --quiet; then
+    echo "  ✓ 无新更改，无需推送"
+else
+    git add -A
+    git commit -m "backup: $(date '+%Y-%m-%d %H:%M')" || true
+    if git push origin master 2>/dev/null; then
+        echo "  ✓ GitHub推送成功"
+    else
+        echo "  ⚠ GitHub推送失败（可能需要认证），跳过"
+    fi
+fi
+echo ""
+
+# ===== 第2步：本地备份 =====
 
 # 备份知识库
 echo "📚 备份知识库..."
