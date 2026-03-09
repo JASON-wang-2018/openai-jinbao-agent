@@ -122,22 +122,26 @@ def get_index_data(use_cache=True):
         ma10 = df['close'].rolling(10).mean().iloc[-1]
         ma20 = df['close'].rolling(20).mean().iloc[-1]
         ma60 = df['close'].rolling(60).mean().iloc[-1]
+        ma120 = df['close'].rolling(120).mean().iloc[-1]
         
         # 计算趋势
         ma20_prev = df['close'].rolling(20).mean().iloc[-2] if len(df) > 1 else ma20
         ma60_prev = df['close'].rolling(60).mean().iloc[-2] if len(df) > 1 else ma60
+        ma120_prev = df['close'].rolling(120).mean().iloc[-2] if len(df) > 1 else ma120
         
         data = {
             'close': round(close, 2),
             'ma10': round(ma10, 2),
             'ma20': round(ma20, 2),
             'ma60': round(ma60, 2),
+            'ma120': round(ma120, 2),
             'ma20_trend': 'up' if ma20 > ma20_prev else ('down' if ma20 < ma20_prev else 'flat'),
             'ma60_trend': 'up' if ma60 > ma60_prev else ('down' if ma60 < ma60_prev else 'flat'),
             'index_strong_trend': ma20 > ma60 and close > ma10,
             'close_ma10_pct': round((close - ma10) / ma10 * 100, 2),
             'close_ma20_pct': round((close - ma20) / ma20 * 100, 2),
             'close_ma60_pct': round((close - ma60) / ma60 * 100, 2),
+            'close_ma120_pct': round((close - ma120) / ma120 * 100, 2),
             'update_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         
@@ -177,19 +181,25 @@ def get_sz_index_data(use_cache=True):
         ma10 = df['close'].rolling(10).mean().iloc[-1]
         ma20 = df['close'].rolling(20).mean().iloc[-1]
         ma60 = df['close'].rolling(60).mean().iloc[-1]
+        ma120 = df['close'].rolling(120).mean().iloc[-1]
         
         ma20_prev = df['close'].rolling(20).mean().iloc[-2] if len(df) > 1 else ma20
         ma60_prev = df['close'].rolling(60).mean().iloc[-2] if len(df) > 1 else ma60
+        ma120_prev = df['close'].rolling(120).mean().iloc[-2] if len(df) > 1 else ma120
         
         data = {
             'close': round(close, 2),
             'ma10': round(ma10, 2),
             'ma20': round(ma20, 2),
             'ma60': round(ma60, 2),
+            'ma120': round(ma120, 2),
             'ma20_trend': 'up' if ma20 > ma20_prev else ('down' if ma20 < ma20_prev else 'flat'),
             'ma60_trend': 'up' if ma60 > ma60_prev else ('down' if ma60 < ma60_prev else 'flat'),
             'index_strong_trend': ma20 > ma60 and close > ma10,
             'close_ma10_pct': round((close - ma10) / ma10 * 100, 2),
+            'close_ma20_pct': round((close - ma20) / ma20 * 100, 2),
+            'close_ma60_pct': round((close - ma60) / ma60 * 100, 2),
+            'close_ma120_pct': round((close - ma120) / ma120 * 100, 2),
             'update_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         
@@ -229,19 +239,25 @@ def get_cy_index_data(use_cache=True):
         ma10 = df['close'].rolling(10).mean().iloc[-1]
         ma20 = df['close'].rolling(20).mean().iloc[-1]
         ma60 = df['close'].rolling(60).mean().iloc[-1]
+        ma120 = df['close'].rolling(120).mean().iloc[-1]
         
         ma20_prev = df['close'].rolling(20).mean().iloc[-2] if len(df) > 1 else ma20
         ma60_prev = df['close'].rolling(60).mean().iloc[-2] if len(df) > 1 else ma60
+        ma120_prev = df['close'].rolling(120).mean().iloc[-2] if len(df) > 1 else ma120
         
         data = {
             'close': round(close, 2),
             'ma10': round(ma10, 2),
             'ma20': round(ma20, 2),
             'ma60': round(ma60, 2),
+            'ma120': round(ma120, 2),
             'ma20_trend': 'up' if ma20 > ma20_prev else ('down' if ma20 < ma20_prev else 'flat'),
             'ma60_trend': 'up' if ma60 > ma60_prev else ('down' if ma60 < ma60_prev else 'flat'),
             'index_strong_trend': ma20 > ma60 and close > ma10,
             'close_ma10_pct': round((close - ma10) / ma10 * 100, 2),
+            'close_ma20_pct': round((close - ma20) / ma20 * 100, 2),
+            'close_ma60_pct': round((close - ma60) / ma60 * 100, 2),
+            'close_ma120_pct': round((close - ma120) / ma120 * 100, 2),
             'update_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
         
@@ -679,6 +695,7 @@ def generate_report(output_json=False):
         print(f"  MA10:     {index_data['ma10']:.2f} ({index_data['close_ma10_pct']:+.2f}%)")
         print(f"  MA20:     {index_data['ma20']:.2f} ({index_data['close_ma20_pct']:+.2f}%) - {index_data['ma20_trend']}")
         print(f"  MA60:     {index_data['ma60']:.2f} ({index_data['close_ma60_pct']:+.2f}%) - {index_data['ma60_trend']}")
+        print(f"  MA120:    {index_data['ma120']:.2f} ({index_data['close_ma120_pct']:+.2f}%)")
         print(f"  强趋势：  {'✅ 是' if index_data['index_strong_trend'] else '❌ 否'}")
     else:
         print(f"  ❌ 指数数据获取失败")
@@ -694,8 +711,9 @@ def generate_report(output_json=False):
     if sz_data:
         print(f"  收盘价：  {sz_data['close']:.2f}")
         print(f"  MA10:     {sz_data['ma10']:.2f} ({sz_data['close_ma10_pct']:+.2f}%)")
-        print(f"  MA20:     {sz_data['ma20']:.2f}")
-        print(f"  MA60:     {sz_data['ma60']:.2f}")
+        print(f"  MA20:     {sz_data['ma20']:.2f} ({sz_data['close_ma20_pct']:+.2f}%)")
+        print(f"  MA60:     {sz_data['ma60']:.2f} ({sz_data['close_ma60_pct']:+.2f}%)")
+        print(f"  MA120:    {sz_data['ma120']:.2f} ({sz_data['close_ma120_pct']:+.2f}%)")
         print(f"  强趋势：  {'✅ 是' if sz_data['index_strong_trend'] else '❌ 否'}")
     else:
         print(f"  ❌ 深证成指数据获取失败")
@@ -707,8 +725,9 @@ def generate_report(output_json=False):
     if cy_data:
         print(f"  收盘价：  {cy_data['close']:.2f}")
         print(f"  MA10:     {cy_data['ma10']:.2f} ({cy_data['close_ma10_pct']:+.2f}%)")
-        print(f"  MA20:     {cy_data['ma20']:.2f}")
-        print(f"  MA60:     {cy_data['ma60']:.2f}")
+        print(f"  MA20:     {cy_data['ma20']:.2f} ({cy_data['close_ma20_pct']:+.2f}%)")
+        print(f"  MA60:     {cy_data['ma60']:.2f} ({cy_data['close_ma60_pct']:+.2f}%)")
+        print(f"  MA120:    {cy_data['ma120']:.2f} ({cy_data['close_ma120_pct']:+.2f}%)")
         print(f"  强趋势：  {'✅ 是' if cy_data['index_strong_trend'] else '❌ 否'}")
     else:
         print(f"  ❌ 创业板指数据获取失败")

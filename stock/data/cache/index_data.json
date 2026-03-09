@@ -1,10 +1,11 @@
 {
-  "timestamp": 1773024811.030986,
+  "timestamp": 1773026001.001517,
   "content": {
     "close": 4124.19,
     "ma10": 4127.67,
     "ma20": 4111.97,
     "ma60": 4042.49,
+    "ma120": 3972.17,
     "ma20_trend": "down",
     "ma60_trend": "up",
     "index_strong_trend": 
