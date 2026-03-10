@@ -7,11 +7,20 @@
 
 import sys
 import os
-import requests
-from datetime import datetime
+import baostock as bs
+from datetime import datetime, timedelta
 
 OUTPUT_DIR = '/home/jason/.openclaw/workspace/stock/reports'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# 指数代码映射
+INDEX_CODES = {
+    '上证指数': 'sh.000001',
+    '深证成指': 'sz.399001',
+    '创业板指': 'sz.399006',
+    '沪深300': 'sh.000300',
+    '中证500': 'sh.000905',
+}
 
 
 def is_trading_day():
@@ -23,52 +32,136 @@ def is_trading_day():
     return True
 
 
+def get_trade_date():
+    """获取最近一个交易日"""
+    now = datetime.now()
+    if now.hour < 16:
+        # 盘中或盘前，取今日
+        return now.strftime('%Y-%m-%d')
+    else:
+        # 盘后，取今日
+        return now.strftime('%Y-%m-%d')
+
+
 def get_market():
     """获取大盘数据"""
     if not is_trading_day():
         return None
     
-    try:
-        # 上证指数
-        sh = requests.get(
-            "https://push2.eastmoney.com/api/qt/stock/get",
-            params={'fields': 'f2,f3', 'secid': '1.000001'},
-            timeout=10
-        ).json()
-        
-        # 深证成指
-        sz = requests.get(
-            "https://push2.eastmoney.com/api/qt/stock/get",
-            params={'fields': 'f2,f3', 'secid': '0.399001'},
-            timeout=10
-        ).json()
-        
-        # 创业板
-        cy = requests.get(
-            "https://push2.eastmoney.com/api/qt/stock/get",
-            params={'fields': 'f2,f3', 'secid': '0.399006'},
-            timeout=10
-        ).json()
-        
-        result = {}
-        if sh.get('data'):
-            result['上证指数'] = (sh['data']['f2'], sh['data']['f3'])
-        if sz.get('data'):
-            result['深证成指'] = (sz['data']['f2'], sz['data']['f3'])
-        if cy.get('data'):
-            result['创业板指'] = (cy['data']['f2'], cy['data']['f3'])
-        
-        return result if result else None
-    except Exception as e:
-        print(f"获取失败: {e}")
+    # 登录 baostock
+    lg = bs.login()
+    if lg.error_code != '0':
+        print(f"Baostock登录失败: {lg.error_msg}")
         return None
+    
+    trade_date = get_trade_date()
+    result = {}
+    
+    try:
+        for name, code in INDEX_CODES.items():
+            rs = bs.query_history_k_data_plus(
+                code,
+                'date,code,open,high,low,close,volume,amount,pctChg',
+                start_date=trade_date, 
+                end_date=trade_date,
+                frequency='d', 
+                adjustflag='2'
+            )
+            
+            if rs.error_code == '0' and rs.next():
+                data = rs.get_row_data()
+                close = float(data[5]) if data[5] else 0
+                pct = float(data[8]) if data[8] else 0
+                volume = int(data[6]) if data[6] else 0
+                
+                if close > 0:
+                    result[name] = {
+                        'close': close,
+                        'pct': pct,
+                        'volume': volume,
+                    }
+            
+            rs.free()
+        
+    finally:
+        bs.logout()
+    
+    return result if result else None
 
 
-def get_hot():
-    """获取热点板块（节流备用）"""
-    if not is_trading_day():
-        return []
-    return []
+def get_zt_count():
+    """获取涨停家数（使用东财涨停统计）"""
+    try:
+        import requests
+        # 东方财富涨停统计
+        url = "https://push2.eastmoney.com/api/qt/clist/get"
+        params = {
+            'pn': 1,
+            'pz': 1,
+            'po': 1,
+            'np': 1,
+            'ut': 'bd1d9ddb04089700cf9c27f6f7426281',
+            'fltt': 2,
+            'invt': 2,
+            'fid': 'f3',
+            'fs': 'm:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23',
+            'fields': 'f2,f3,f4,f12,f13,f14',
+        }
+        r = requests.get(url, params=params, timeout=10)
+        data = r.json()
+        if data.get('data') and data['data'].get('total'):
+            return data['data']['total']
+    except:
+        pass
+    return None
+
+
+def get_ma_status():
+    """获取均线状态"""
+    lg = bs.login()
+    if lg.error_code != '0':
+        return None
+    
+    trade_date = get_trade_date()
+    start_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
+    
+    result = {}
+    for name, code in [('上证指数', 'sh.000001'), ('创业板指', 'sz.399006')]:
+        rs = bs.query_history_k_data_plus(
+            code,
+            'date,close',
+            start_date=start_date, 
+            end_date=trade_date,
+            frequency='d', 
+            adjustflag='2'
+        )
+        
+        closes = []
+        while rs.error_code == '0' and rs.next():
+            row = rs.get_row_data()
+            if row[1]:
+                closes.append(float(row[1]))
+        
+        if len(closes) >= 20:
+            ma5 = sum(closes[-5:]) / 5
+            ma10 = sum(closes[-10:]) / 10
+            ma20 = sum(closes[-20:]) / 20
+            ma60 = sum(closes[-60:]) / 60 if len(closes) >= 60 else None
+            
+            current = closes[-1]
+            trend = "↑" if ma10 > ma20 else "↓"
+            if ma60:
+                trend += "↑" if ma20 > ma60 else "↓"
+            
+            result[name] = {
+                'ma10': ma10,
+                'ma20': ma20,
+                'ma60': ma60,
+                'trend': trend,
+            }
+    
+    bs.logout()
+    return result
 
 
 def main():
@@ -82,7 +175,10 @@ def main():
     
     print(f"\n正在生成{report_type}复盘报告...")
     
+    # 获取数据
     market = get_market()
+    ma_status = get_ma_status()
+    zt_count = get_zt_count()
     
     if market is None:
         print("数据获取失败")
@@ -93,22 +189,52 @@ def main():
     lines.append(f"【A股复盘报告】- {now.strftime('%Y-%m-%d %H:%M')} ({report_type})")
     lines.append("=" * 60)
     lines.append("")
+    
+    # 一、大盘
     lines.append("【一、大盘】")
-    for name, (price, change) in market.items():
-        sign = '+' if change >= 0 else ''
-        lines.append(f"  {name}: {price:.2f} ({sign}{change:.2f}%)")
+    for name in ['上证指数', '深证成指', '创业板指', '沪深300', '中证500']:
+        if name in market:
+            data = market[name]
+            pct = data['pct']
+            sign = '+' if pct >= 0 else ''
+            vol = data['volume'] / 1e8  # 亿
+            lines.append(f"  {name}: {data['close']:.2f} ({sign}{pct:.2f}%) 量:{vol:.0f}亿")
     lines.append("")
-    lines.append("【二、北向资金】")
-    lines.append("  (请查看龙虎榜)")
+    
+    # 二、均线状态
+    if ma_status:
+        lines.append("【二、均线趋势】")
+        for name, data in ma_status.items():
+            trend = data['trend']
+            lines.append(f"  {name}: MA10>{'MA20<' if '↓' in trend else 'MA20>'} {trend}")
+        lines.append("")
+    
+    # 三、情绪指标
+    lines.append("【三、情绪指标】")
+    if zt_count:
+        lines.append(f"  涨停家数: {zt_count}")
+    else:
+        lines.append("  涨停家数: (获取失败)")
     lines.append("")
-    lines.append("【三、热点板块】")
-    lines.append("  (请使用券商APP)")
+    
+    # 四、系统信号（简单版）
+    lines.append("【四、系统信号】")
+    if '上证指数' in market:
+        sh_pct = market['上证指数']['pct']
+        if sh_pct > 0.5:
+            lines.append("  大盘状态: 强势")
+        elif sh_pct < -0.5:
+            lines.append("  大盘状态: 弱势")
+        else:
+            lines.append("  大盘状态: 震荡")
     lines.append("")
+    
     lines.append("=" * 60)
     
     report = '\n'.join(lines)
     print(report)
     
+    # 保存
     filename = f"{OUTPUT_DIR}/report_{now.strftime('%Y-%m-%d')}_{'am' if now.hour < 12 else 'pm'}.txt"
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(report)
