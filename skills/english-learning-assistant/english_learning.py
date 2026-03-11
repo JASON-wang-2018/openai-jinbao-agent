@@ -68,7 +68,7 @@ class EnglishLearningAssistant:
     
     # ==================== 文章搜索 ====================
     
-    def search_article(self, topic: str, level: str = "intermediate") -> dict:
+    def search_article(self, topic: str, level: str = "CET-4") -> dict:
         """
         搜索英语文章
         
@@ -81,32 +81,84 @@ class EnglishLearningAssistant:
         """
         import subprocess
         
-        # 预设英语学习文章（备用方案）
+        # 预设英语学习文章（CET-4难度，300词以内）
         preset_articles = [
             {
-                "title": "The Rise of Artificial Intelligence in Everyday Life",
+                "title": "The Rise of Artificial Intelligence",
                 "url": "https://www.bbc.com/learning-english/english/features/6-minute-english",
-                "snippet": "How AI is changing the way we live, work, and interact with technology in our daily lives."
+                "level": "CET-4",
+                "snippet": "How AI is changing our daily lives in unexpected ways.",
+                "content": """Artificial intelligence (AI) is no longer just a topic for science fiction. It has become part of our daily lives in ways we may not even realize.
+
+One common example is voice assistants like Siri and Alexa. These tools use natural language processing to understand and respond to our questions. They can set alarms, play music, or control smart home devices.
+
+Another area where AI makes a big impact is recommendation systems. When you watch a movie on Netflix or buy something on Amazon, AI analyzes your preferences and suggests things you might like. This technology learns from your behavior over time.
+
+In healthcare, AI is helping doctors diagnose diseases more accurately. Machine learning algorithms can analyze medical images and identify patterns that might be missed by human eyes.
+
+However, there are concerns about privacy and job displacement. As AI becomes more powerful, society needs to address these challenges carefully. The key is to use AI as a tool to enhance human capabilities, not replace them.
+
+In conclusion, AI is transforming our world in many positive ways."""
             },
             {
-                "title": "Climate Change: What You Need to Know",
+                "title": "Climate Change Basics",
                 "url": "https://www.bbc.com/learning-english/english/features/6-minute-english/ep-201205",
-                "snippet": "Learn key vocabulary about climate change and environmental issues affecting our planet."
+                "level": "CET-4",
+                "snippet": "Learn key vocabulary about climate change and environmental issues.",
+                "content": """Climate change is one of the most pressing issues of our time. It refers to long-term shifts in global temperatures and weather patterns.
+
+The primary cause of climate change is burning fossil fuels like coal, oil, and gas. This releases greenhouse gases into the atmosphere, which trap heat and cause the planet to warm.
+
+The effects of climate change are already visible around the world. Temperatures are rising, ice caps are melting, and sea levels are increasing. Extreme weather events like hurricanes and floods are becoming more frequent.
+
+Individuals can help combat climate change in their daily lives. Reducing energy consumption, using public transportation, and recycling are effective actions. Small changes can make a big difference when many people participate.
+
+Governments and businesses also play crucial roles. Investing in green technology and sustainable practices is essential for a healthier future."""
             },
             {
-                "title": "The Science of Sleep",
+                "title": "The Importance of Sleep",
                 "url": "https://www.bbc.com/learning-english/english/features/6-minute-english/ep-190717",
-                "snippet": "Discover why sleep is important and how it affects our health and productivity."
+                "level": "CET-4",
+                "snippet": "Discover why sleep is important for your health.",
+                "content": """Sleep is essential for our physical and mental well-being. Yet many of us treat it as a luxury rather than a necessity.
+
+During sleep, your body works to support healthy brain function and maintain physical health. The brain forms new pathways to help you learn and remember information. Meanwhile, the body repairs tissues and strengthens the immune system.
+
+Adults generally need seven to nine hours of sleep per night. However, quality matters as much as quantity. Poor sleep can lead to problems with concentration and memory. Chronic sleep deprivation increases the risk of health issues like heart disease and diabetes.
+
+Many factors can affect sleep quality. Screen time before bed exposes you to blue light, which can disrupt your sleep cycle. Caffeine and alcohol consumption close to bedtime can also interfere with sleep.
+
+Good sleep habits can improve your rest. This includes maintaining a consistent sleep schedule and creating a dark, cool sleeping environment."""
             },
             {
-                "title": "Business Innovation in the Digital Age",
-                "url": "https://www.bbc.com/learning-english/english/features/6-minute-english/ep-220427",
-                "snippet": "Learn about how companies are innovating and adapting to the digital economy."
+                "title": "The Benefits of Reading",
+                "url": "https://www.bbc.com/learning-english/english/features/6-minute-english",
+                "level": "CET-4",
+                "snippet": "Why reading is good for your brain and personal growth.",
+                "content": """Reading is one of the most beneficial activities you can do. It not only provides knowledge but also strengthens your brain.
+
+Books can take you to places you've never been. They introduce you to different cultures, ideas, and perspectives. This helps develop empathy and understanding of others.
+
+Reading regularly improves memory and concentration. When you read, your brain is actively working to process information. This mental exercise keeps your mind sharp, especially as you age.
+
+Books can also reduce stress. Getting lost in a good story can help you forget your worries temporarily. It's a form of relaxation that doesn't require screens.
+
+For better reading habits, try setting aside a specific time each day. Start with books that interest you. The key is to make reading enjoyable, not a chore."""
             },
             {
-                "title": "The Future of Space Exploration",
-                "url": "https://www.bbc.com/learning-english/english/features/6-minute-english/ep-230215",
-                "snippet": "Explore new frontiers in space travel and the latest discoveries about our universe."
+                "title": "Healthy Eating Habits",
+                "url": "https://www.bbc.com/learning-english/english/features/6-minute-english",
+                "level": "CET-4",
+                "snippet": "Simple tips for maintaining a healthy diet.",
+                "content": """Healthy eating is fundamental to good health. It provides the nutrients your body needs to function properly.
+
+A balanced diet includes fruits, vegetables, whole grains, and lean proteins. These foods provide vitamins, minerals, and energy. Avoiding processed foods can significantly improve your health.
+
+Drinking enough water is also essential. Water helps regulate body temperature and transport nutrients. Aim for eight glasses a day.
+
+Portion control is another important factor. Even healthy foods can lead to weight gain if eaten in large amounts. Eating slowly helps your brain recognize when you're full.
+
+Planning meals in advance can help you make healthier choices. It reduces the temptation to grab fast food when you're busy."""
             }
         ]
         
@@ -140,10 +192,9 @@ class EnglishLearningAssistant:
                 "snippet": results[0]["snippet"] if results else "",
             }
         
-        # 添加元数据
+        # 添加元数据（保留原文章的level，避免覆盖）
         article.update({
             "topic": topic,
-            "level": level,
             "fetched_at": datetime.now().isoformat()
         })
         
@@ -152,6 +203,54 @@ class EnglishLearningAssistant:
         self._save_json("progress.json", self.progress)
         
         return article
+    
+    def fetch_article_content(self, url: str) -> str:
+        """
+        获取文章的完整内容
+        
+        Args:
+            url: 文章URL
+            
+        Returns:
+            完整文章内容
+        """
+        import subprocess
+        import json
+        
+        # 使用 web_fetch 工具获取内容
+        base_dir = "/home/jason/.openclaw/workspace/skills/tavily-search/scripts"
+        
+        try:
+            result = subprocess.run(
+                ["node", f"{base_dir}/fetch.mjs", url],
+                capture_output=True, text=True, timeout=30
+            )
+            
+            if result.returncode == 0 and result.stdout:
+                data = json.loads(result.stdout)
+                return data.get("content", "")[:2000]  # 限制长度
+            
+        except Exception as e:
+            pass
+        
+        # 备用：尝试用 curl 获取
+        try:
+            result = subprocess.run(
+                ["curl", "-s", url],
+                capture_output=True, text=True, timeout=15
+            )
+            if result.returncode == 0:
+                # 简单提取正文（移除HTML标签）
+                import re
+                text = re.sub(r'<[^>]+>', '', result.stdout)
+                # 提取一段文字
+                paragraphs = [p.strip() for p in text.split('\n') if len(p.strip()) > 50]
+                return '\n\n'.join(paragraphs[:5])  # 返回前5段
+        
+        except Exception as e:
+            pass
+        
+        return ""
     
     # ==================== 文字转语音 ====================
     
@@ -340,12 +439,34 @@ class EnglishLearningAssistant:
     
     def send_lesson_to_feishu(self, lesson_data: dict):
         """
-        发送完整课程到飞书
+        发送完整课程到飞书（包含完整文章内容）
         
         Args:
             lesson_data: 课程数据字典
         """
-        text = f"""
+        # 判断是否有完整文章内容
+        full_content = lesson_data.get('content', '')
+        
+        if full_content:
+            # 发送完整文章
+            text = f"""
+📚 今日英语学习
+
+📰 标题: {lesson_data.get('title', 'No Title')}
+📖 来源: {lesson_data.get('url', 'Unknown')}
+📊 难度: {lesson_data.get('level', 'Intermediate')}
+
+💡 核心词汇:
+{lesson_data.get('vocab', '暂无词汇')}
+
+📖 完整文章:
+{full_content}
+
+🔗 原文链接: {lesson_data.get('url', '#')}
+"""
+        else:
+            # 降级为摘要
+            text = f"""
 📚 今日英语学习
 
 📰 标题: {lesson_data.get('title', 'No Title')}

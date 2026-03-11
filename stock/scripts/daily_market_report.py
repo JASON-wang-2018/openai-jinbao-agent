@@ -33,13 +33,23 @@ def is_trading_day():
 
 
 def get_trade_date():
-    """获取最近一个交易日"""
+    """获取最近一个有数据的交易日（早盘取昨天，盘后取今日）"""
     now = datetime.now()
-    if now.hour < 16:
-        # 盘中或盘前，取今日
-        return now.strftime('%Y-%m-%d')
+    
+    # 早盘时间（9:30之前）取前一天
+    if now.hour < 9:
+        yesterday = now - timedelta(days=1)
+        while yesterday.weekday() >= 5:  # 跳过周末
+            yesterday -= timedelta(days=1)
+        return yesterday.strftime('%Y-%m-%d')
+    elif now.hour < 16:
+        # 盘中或盘前（9:00-15:30），取昨日数据更可靠
+        yesterday = now - timedelta(days=1)
+        while yesterday.weekday() >= 5:  # 跳过周末
+            yesterday -= timedelta(days=1)
+        return yesterday.strftime('%Y-%m-%d')
     else:
-        # 盘后，取今日
+        # 盘后（16:00后），取今日
         return now.strftime('%Y-%m-%d')
 
 
@@ -81,7 +91,7 @@ def get_market():
                         'volume': volume,
                     }
             
-            rs.free()
+            # baostock 新版不需要手动 free()
         
     finally:
         bs.logout()

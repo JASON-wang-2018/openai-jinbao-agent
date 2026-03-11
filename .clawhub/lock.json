@@ -32,6 +32,10 @@
     "memory-system-v2": {
       "version": "1.0.0",
       "installedAt": 1771720621459
+    },
+    "scrapling-web-scraping": {
+      "version": "1.2.0",
+      "installedAt": 1773193331473
     }
   }
 }
