@@ -86,5 +86,5 @@ if __name__ == "__main__":
         print(f"🔔 需要发送提醒: {content}")
         sys.exit(0)
     else:
-        print(f"⏳ 跳过提醒: {content}")
+        # 已完成/已取消，静默跳过，不输出
         sys.exit(1)
