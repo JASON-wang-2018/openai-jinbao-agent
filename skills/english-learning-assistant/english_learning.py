@@ -448,12 +448,11 @@ Planning meals in advance can help you make healthier choices. It reduces the te
         full_content = lesson_data.get('content', '')
         
         if full_content:
-            # 发送完整文章
+            # 发送完整文章（去掉链接）
             text = f"""
 📚 今日英语学习
 
 📰 标题: {lesson_data.get('title', 'No Title')}
-📖 来源: {lesson_data.get('url', 'Unknown')}
 📊 难度: {lesson_data.get('level', 'Intermediate')}
 
 💡 核心词汇:
@@ -461,16 +460,13 @@ Planning meals in advance can help you make healthier choices. It reduces the te
 
 📖 完整文章:
 {full_content}
-
-🔗 原文链接: {lesson_data.get('url', '#')}
 """
         else:
-            # 降级为摘要
+            # 降级为摘要（去掉链接）
             text = f"""
 📚 今日英语学习
 
 📰 标题: {lesson_data.get('title', 'No Title')}
-📖 来源: {lesson_data.get('url', 'Unknown')}
 📊 难度: {lesson_data.get('level', 'Intermediate')}
 
 💡 核心词汇:
@@ -478,8 +474,6 @@ Planning meals in advance can help you make healthier choices. It reduces the te
 
 📝 文章摘要:
 {lesson_data.get('summary', '暂无摘要')}
-
-🔗 原文链接: {lesson_data.get('url', '#')}
 """
         self.send_to_feishu(text)
     

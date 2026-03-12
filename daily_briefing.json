@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-02-17T14:15:36.405773+00:00",
-  "location": "上海",
-  "date": "2026-02-17",
-  "weekday": "Tuesday",
+  "generated_at": "2026-03-12T00:41:55.669388+00:00",
+  "location": "Columbus",
+  "date": "2026-03-12",
+  "weekday": "Thursday",
   "sections": [
     {
       "title": "🌅 Good Morning!",
@@ -11,7 +11,7 @@
     },
     {
       "title": "🌡 Weather Check",
-      "content": "Check the weather in 上海 before heading out. Plan your day accordingly.",
+      "content": "Check the weather in Columbus before heading out. Plan your day accordingly.",
       "type": "weather"
     },
     {

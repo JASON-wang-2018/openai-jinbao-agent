@@ -175,8 +175,21 @@ def get_ma_status():
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--time', type=str, default='', help='早盘/午盘/晚间')
+    parser.add_argument('--save', action='store_true', help='保存报告')
+    args = parser.parse_args()
+    
     now = datetime.now()
-    report_type = '早盘' if now.hour < 12 else '晚间'
+    
+    # 支持命令行参数指定报告类型
+    if args.time == '晚间':
+        report_type = '晚间'
+    elif args.time in ['早盘', '午盘']:
+        report_type = args.time
+    else:
+        report_type = '早盘' if now.hour < 12 else '晚间'
     
     if not is_trading_day():
         print(f"\n今日 {now.strftime('%Y-%m-%d %H:%M')} ({report_type})")
@@ -245,7 +258,15 @@ def main():
     print(report)
     
     # 保存
-    filename = f"{OUTPUT_DIR}/report_{now.strftime('%Y-%m-%d')}_{'am' if now.hour < 12 else 'pm'}.txt"
+    # 保存 - 使用命令行指定的time类型，否则根据当前时间判断
+    if args.time == '晚间':
+        time_suffix = 'pm'
+    elif args.time == '早盘':
+        time_suffix = 'am'
+    else:
+        time_suffix = 'am' if now.hour < 12 else 'pm'
+    
+    filename = f"{OUTPUT_DIR}/report_{now.strftime('%Y-%m-%d')}_{time_suffix}.txt"
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(report)
     print(f"\n已保存: {filename}")
