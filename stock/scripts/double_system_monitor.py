@@ -42,11 +42,11 @@ def login_bs():
 
 def get_index_data():
     """获取指数数据"""
-    # 获取上证指数
+    # 获取上证指数 - 需要150天历史确保有足够数据计算MA60
     rs = bs.query_history_k_data_plus(
         "sh.000001",
         "date,code,open,high,low,close,volume,amount",
-        start_date=(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d'),
+        start_date=(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d'),
         end_date=datetime.now().strftime('%Y-%m-%d'),
         frequency="d"
     )
@@ -63,8 +63,10 @@ def get_index_data():
 
 def check_double_system(df):
     """检查双系统条件"""
+    if df is None or len(df) == 0:
+        return None, "无数据"
     if len(df) < 20:
-        return None, "数据不足"
+        return None, f"数据不足({len(df)}天)"
     
     latest = df.iloc[-1]
     prev = df.iloc[-1]
@@ -96,7 +98,7 @@ def check_double_system(df):
     rs = bs.query_history_k_data_plus(
         "sz.399006",
         "date,close",
-        start_date=(datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d'),
+        start_date=(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d'),
         end_date=datetime.now().strftime('%Y-%m-%d'),
         frequency="d"
     )
@@ -195,8 +197,8 @@ def send_to_feishu(msg):
         # 使用 openclaw message 发送到群
         cmd = [
             "openclaw", "message", "send",
-            "--channel", "feishu", 
-            "--target", "chat:oc_f84f0158693c8887be1bac624f143805"
+            "--channel", "feishu",
+            "--target", "chat:oc_f84f0158693c8887be1bac624f143805",
             "--message", msg
         ]
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
