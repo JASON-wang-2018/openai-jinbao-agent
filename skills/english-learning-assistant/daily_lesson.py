@@ -47,6 +47,14 @@ def generate_daily_lesson():
         print(f"✅ 获取到 {len(full_content)} 字符的文章内容")
     else:
         print("⚠️ 无法获取完整内容，使用摘要")
+        article['content'] = article.get('snippet', 'No content available')
+    
+    # 输出文章信息（供脚本提取）
+    print(f"📝 ARTICLE_TITLE: {article['title']}")
+    print(f"📝 ARTICLE_LEVEL: {article['level']}")
+    print(f"📝 ARTICLE_CONTENT_BEGINS")
+    print(article['content'])
+    print(f"📝 ARTICLE_CONTENT_ENDS")
     
     # 2. 生成词汇表 (CET-4难度)
     vocab_list = f"""
