@@ -194,19 +194,51 @@ python3 examples/quick_start.py
 
 ---
 
-## 🎓 英语学习助手技能 (2026-02-18)
+## 🎓 英语学习助手技能 (2026-02-18) - 更新 2026-03-12
 
 > **位置**: `skills/english-learning-assistant/`
+> **状态**: ✅ 已优化为预置短文模式
 
-### 核心功能
+### 最佳方案：预置短文模式（2026-03-12确定）
 
-| 功能 | 状态 | 说明 |
-|------|------|------|
-| 文章搜索 | ✅ 已完成 | 每日自动搜索英语文章 |
-| 文字转语音 (TTS) | ✅ 已完成 | ElevenLabs / sherpa-onnx-tts |
-| 语法纠错 | ✅ 已完成 | 常见错误自动检测 |
-| 飞书集成 | ✅ 已完成 | 文本 + 语音消息 |
-| 语音转文字 (STT) | 🔍 待测试 | OpenAI Whisper |
+**发送方式**:
+- 每天早上 8:00 自动发送
+- 发送脚本: `scripts/daily_english_article.sh`
+- 发送到飞书群: oc_f84f0158693c8887be1bac624f143805
+
+**短文模板**:
+```
+📚 每日英语短文 · 日期 · 星期几
+
+🏷️ 标题: xxx
+🏷️ 难度: CET-4
+
+📖 正文:
+[约500-550词英文短文]
+
+💡 核心词汇:
+• 单词1 /音标/ 词性. 中文
+• 单词2 /音标/ 词性. 中文
+...
+
+━━━━━━━━━━━━━━━
+每天进步一点点 🇺🇸
+```
+
+**内容规划**:
+- 周一: The Power of Starting Small
+- 周二: Why Morning Routines Matter
+- 周三: The Art of Deep Work
+- 周四: Learning from Failure
+- 周五: Building Healthy Relationships
+- 周六: The Weekend Reset
+- 周日: Planning for the Week Ahead
+
+**要点**:
+1. ✅ 正文在核心词汇前面
+2. ✅ 单词数量500-600词
+3. ✅ 不发链接，直接发内容
+4. ✅ 每周主题不同
 
 ### 核心模块
 
