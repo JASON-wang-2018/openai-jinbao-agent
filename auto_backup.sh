@@ -72,6 +72,14 @@ if [ -d "$WORKSPACE/memory" ]; then
     echo "  ✓ memory/"
 fi
 
+# 备份Cron任务配置
+echo "⏰ 备份Cron配置..."
+if [ -d "/home/jason/.openclaw/cron" ]; then
+    mkdir -p "$BACKUP_DIR/.openclaw"
+    cp -r "/home/jason/.openclaw/cron" "$BACKUP_DIR/.openclaw/"
+    echo "  ✓ .openclaw/cron/"
+fi
+
 # 创建最新备份软链接
 echo ""
 echo "🔗 更新最新备份链接..."

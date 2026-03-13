@@ -27,8 +27,22 @@ git fetch origin
 git reset --hard origin/main
 
 echo ""
+echo "✅ 代码恢复完成！"
+echo ""
+
+# ===== 第2步：恢复Cron配置 =====
+if [ -d "$WORKSPACE/.openclaw/cron" ]; then
+    echo "⏰ 恢复Cron配置..."
+    mkdir -p /home/jason/.openclaw
+    cp -r "$WORKSPACE/.openclaw/cron" /home/jason/.openclaw/
+    echo "  ✓ Cron配置已恢复"
+fi
+
+echo ""
+echo "========================================"
 echo "✅ 恢复完成！"
+echo "========================================"
 echo ""
 echo "下一步："
 echo "1. 重启OpenClaw: openclaw gateway restart"
-echo "2. 检查状态: openclaw status"
+echo "2. 检查Cron: openclaw cron list"
