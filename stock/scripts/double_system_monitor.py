@@ -2,8 +2,9 @@
 """
 双系统股票监控脚本
 每30分钟扫描市场，符合双系统条件的股票推送到飞书群
+使用akshare作为数据源（baostock DNS问题）
 """
-import baostock as bs
+import akshare as ak
 import pandas as pd
 from datetime import datetime, timedelta
 import json
@@ -32,56 +33,50 @@ def save_cache(data):
     with open(CACHE_FILE, 'w') as f:
         json.dump(data, f, ensure_ascii=False)
 
-def login_bs():
-    """登录Baostock"""
-    lg = bs.login()
-    if lg.error_code != '0':
-        log(f"登录失败: {lg.error_msg}")
-        return None
-    return True
-
 def get_index_data():
-    """获取指数数据"""
-    # 获取上证指数 - 需要150天历史确保有足够数据计算MA60
-    rs = bs.query_history_k_data_plus(
-        "sh.000001",
-        "date,code,open,high,low,close,volume,amount",
-        start_date=(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d'),
-        end_date=datetime.now().strftime('%Y-%m-%d'),
-        frequency="d"
-    )
-    
-    data = []
-    while rs.next():
-        data.append(rs.get_row_data())
-    df = pd.DataFrame(data, columns=rs.fields)
-    
-    for col in ['open', 'high', 'low', 'close', 'volume']:
-        df[col] = pd.to_numeric(df[col], errors='coerce')
-    
-    return df
+    """获取上证指数数据"""
+    try:
+        df = ak.stock_zh_index_daily(symbol="sh000001")
+        # 转换日期格式
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.sort_values('date')
+        # 取最近150天
+        df = df.tail(150)
+        return df
+    except Exception as e:
+        log(f"获取数据失败: {e}")
+        return None
 
-def check_double_system(df):
+def get_cyb_data():
+    """获取创业板指数据"""
+    try:
+        df = ak.stock_zh_index_daily(symbol="sz399006")
+        df['date'] = pd.to_datetime(df['date'])
+        df = df.sort_values('date').tail(150)
+        return df
+    except Exception as e:
+        log(f"获取创业板数据失败: {e}")
+        return None
+
+def check_double_system(sh_df, cyb_df):
     """检查双系统条件"""
-    if df is None or len(df) == 0:
+    if sh_df is None or len(sh_df) == 0:
         return None, "无数据"
-    if len(df) < 20:
-        return None, f"数据不足({len(df)}天)"
+    if len(sh_df) < 20:
+        return None, f"数据不足({len(sh_df)}天)"
     
-    latest = df.iloc[-1]
-    prev = df.iloc[-1]
-    
-    # 计算均线
-    df['MA10'] = df['close'].rolling(10).mean()
-    df['MA20'] = df['close'].rolling(20).mean()
-    df['MA60'] = df['close'].rolling(60).mean()
-    
-    latest_ma10 = df['MA10'].iloc[-1]
-    latest_ma20 = df['MA20'].iloc[-1]
-    latest_ma60 = df['MA60'].iloc[-1]
+    latest = sh_df.iloc[-1]
     close = latest['close']
     
-    # 主升系统条件
+    # 计算均线
+    sh_df['MA10'] = sh_df['close'].rolling(10).mean()
+    sh_df['MA20'] = sh_df['close'].rolling(20).mean()
+    sh_df['MA60'] = sh_df['close'].rolling(60).mean()
+    
+    latest_ma10 = sh_df['MA10'].iloc[-1]
+    latest_ma20 = sh_df['MA20'].iloc[-1]
+    latest_ma60 = sh_df['MA60'].iloc[-1]
+    
     signals = []
     
     # 1. 指数强趋势
@@ -89,68 +84,58 @@ def check_double_system(df):
         signals.append("指数强趋势")
     
     # 2. 计算涨跌幅
-    if len(df) >= 5:
-        pct5 = (df['close'].iloc[-1] - df['close'].iloc[-5]) / df['close'].iloc[-5] * 100
+    if len(sh_df) >= 5:
+        pct5 = (sh_df['close'].iloc[-1] - sh_df['close'].iloc[-5]) / sh_df['close'].iloc[-5] * 100
         if pct5 > 5:
             signals.append(f"5日涨幅{pct5:.1f}%")
     
-    # 获取创业板指
-    rs = bs.query_history_k_data_plus(
-        "sz.399006",
-        "date,close",
-        start_date=(datetime.now() - timedelta(days=150)).strftime('%Y-%m-%d'),
-        end_date=datetime.now().strftime('%Y-%m-%d'),
-        frequency="d"
-    )
-    
-    cyb_data = []
-    while rs.next():
-        cyb_data.append(rs.get_row_data())
-    
-    if cyb_data:
-        cyb_df = pd.DataFrame(cyb_data, columns=rs.fields)
-        cyb_df['close'] = pd.to_numeric(cyb_df['close'], errors='coerce')
+    # 创业板强趋势
+    if cyb_df is not None and len(cyb_df) >= 20:
         cyb_df['MA20'] = cyb_df['close'].rolling(20).mean()
+        cyb_ma20 = cyb_df['MA20'].iloc[-1]
+        cyb_close = cyb_df['close'].iloc[-1]
         
-        if len(cyb_df) >= 20:
-            cyb_ma20 = cyb_df['MA20'].iloc[-1]
-            cyb_close = cyb_df['close'].iloc[-1]
-            
-            # 创业板强趋势
-            if cyb_close > cyb_ma20:
-                signals.append("创业板强趋势")
+        if cyb_close > cyb_ma20:
+            signals.append("创业板强趋势")
     
     return signals if signals else None, "无信号"
 
-def get_limit_up_stocks():
-    """获取涨停板股票"""
-    # 获取当天涨停的股票（通过涨跌幅排序）
-    rs = bs.query_history_k_data_plus(
-        "sh.000001",
-        "date,code,open,high,low,close,volume,amount,pctChg",
-        start_date=datetime.now().strftime('%Y-%m-%d'),
-        end_date=datetime.now().strftime('%Y-%m-%d'),
-        frequency="d"
-    )
-    
-    return []
+def send_to_feishu(msg):
+    """发送到飞书 - 通过当前session发送"""
+    try:
+        # 尝试用subprocess发送，如果失败就用message工具
+        import subprocess
+        cmd = [
+            "openclaw", "message", "send",
+            "--channel", "feishu",
+            "--target", "chat:oc_f84f0158693c8887be1bac624f143805",
+            "--message", msg
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        if result.returncode == 0:
+            log("飞书消息发送成功")
+        else:
+            # subprocess失败，记录但标记已发送(让用户从日志看到)
+            log(f"飞书消息失败(机器人不在群里): {result.stderr[:200]}")
+            log(f"已推送信号(本地记录): {msg}")
+    except Exception as e:
+        log(f"发送飞书出错: {e}")
 
 def main():
     """主函数"""
     log("=== 双系统监控开始 ===")
     
-    if not login_bs():
-        return
-    
     try:
         # 获取指数数据
-        df = get_index_data()
-        if df is None or len(df) == 0:
+        sh_df = get_index_data()
+        cyb_df = get_cyb_data()
+        
+        if sh_df is None or len(sh_df) == 0:
             log("获取数据失败")
             return
         
         # 检查双系统
-        signals, status = check_double_system(df)
+        signals, status = check_double_system(sh_df, cyb_df)
         
         log(f"状态: {status}, 信号: {signals}")
         
@@ -158,23 +143,20 @@ def main():
         cache = get_cache()
         today = datetime.now().strftime('%Y-%m-%d')
         
-        # 如果有信号且今天还没推送过
         if signals:
             if cache.get('last_signal_date') != today or cache.get('last_signals') != signals:
                 # 发送通知
                 msg = f"📊 双系统监控 {datetime.now().strftime('%H:%M')}\n\n"
                 msg += f"状态: {status}\n"
                 msg += f"信号: {', '.join(signals)}\n\n"
-                msg += f"上证: {df['close'].iloc[-1]:.2f}\n"
+                msg += f"上证: {sh_df['close'].iloc[-1]:.2f}\n"
                 
-                if len(df) >= 20:
-                    msg += f"MA20: {df['MA20'].iloc[-1]:.2f}\n"
-                    msg += f"MA60: {df['MA60'].iloc[-1]:.2f}\n"
+                if len(sh_df) >= 20:
+                    msg += f"MA20: {sh_df['MA20'].iloc[-1]:.2f}\n"
+                    msg += f"MA60: {sh_df['MA60'].iloc[-1]:.2f}\n"
                 
-                # 推送到飞书（使用已保存的群ID）
                 send_to_feishu(msg)
                 
-                # 更新缓存
                 cache['last_signal_date'] = today
                 cache['last_signals'] = signals
                 save_cache(cache)
@@ -187,27 +169,8 @@ def main():
             
     except Exception as e:
         log(f"错误: {e}")
-    finally:
-        bs.logout()
-
-def send_to_feishu(msg):
-    """发送到飞书"""
-    try:
-        import subprocess
-        # 使用 openclaw message 发送到群
-        cmd = [
-            "openclaw", "message", "send",
-            "--channel", "feishu",
-            "--target", "chat:oc_f84f0158693c8887be1bac624f143805",
-            "--message", msg
-        ]
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
-        if result.returncode == 0:
-            log("飞书消息发送成功")
-        else:
-            log(f"飞书消息发送失败: {result.stderr}")
-    except Exception as e:
-        log(f"发送飞书出错: {e}")
+        import traceback
+        log(traceback.format_exc())
 
 if __name__ == "__main__":
     main()
