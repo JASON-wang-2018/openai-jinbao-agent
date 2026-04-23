@@ -87,18 +87,7 @@ def main():
     """主函数"""
     message = format_message()
     
-    # 使用 OpenClaw 的 message 工具发送
-    from tools import message
-    
-    result = message(
-        action="send",
-        channel="feishu",
-        target="oc_f84f0158693c8887be1bac624f143805",
-        message=message
-    )
-    
-    print(f"✅ 已发送英语短文到群")
-    print(f"📝 内容: {message[:100]}...")
+    print(message)
 
 
 if __name__ == "__main__":
