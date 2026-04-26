@@ -1,0 +1,604 @@
+{
+  "executions": [
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:00:01.347728"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:00:01.348384"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:00:01.349213"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:00:01.349917"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:05:01.885114"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:05:01.886019"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:05:01.895153"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:05:01.896581"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:05:01.897670"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:05:01.898986"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:05:01.900325"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:05:01.900954"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:10:01.551863"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:10:01.552791"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:10:01.554983"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:10:01.556276"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:10:01.557023"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:10:01.557760"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:10:01.558524"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:10:01.559288"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:15:01.174591"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:15:01.175412"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:15:01.184607"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:15:01.185396"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:15:01.186217"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:15:01.186997"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:15:01.188063"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:15:01.188958"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:20:01.915016"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:20:01.915903"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:20:01.925048"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:20:01.926481"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:20:01.927772"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:20:01.928554"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:20:01.929269"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:20:01.930442"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:25:01.847570"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:25:01.848503"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:25:01.850016"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:25:01.850865"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:25:01.851687"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:25:01.852441"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:25:01.853303"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:25:01.854080"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:30:01.732950"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:30:01.734038"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:30:01.736312"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:30:01.737218"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:30:01.738061"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:30:01.738801"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:30:01.739524"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:30:01.740232"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:35:01.832125"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:35:01.832960"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:35:01.841751"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:35:01.842394"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:35:01.843199"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:35:01.843879"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T04:35:01.845354"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T04:35:01.846020"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:40:01.176664"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:40:01.177408"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:40:01.178214"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:40:01.178926"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:40:01.179679"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:40:01.180688"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:40:01.181827"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:40:01.182669"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:45:01.922107"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:45:01.922909"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:45:01.930765"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:45:01.931908"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:45:01.932915"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:45:01.933589"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:45:01.934242"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:45:01.934882"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:50:01.664635"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:50:01.665293"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:50:01.665906"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:50:01.667082"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:50:01.667880"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:50:01.668425"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:50:01.668989"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:50:01.669538"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:55:01.605227"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:55:01.605971"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:55:01.614126"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:55:01.615583"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:55:01.616267"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:55:01.616849"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T10:55:01.617597"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T10:55:01.618282"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T11:00:01.845616"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T11:00:01.846467"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T11:00:01.847099"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u77ed\u6587",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T11:00:01.847712"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T11:00:01.848948"
+    },
+    {
+      "task": "[COMPENSATE] \u5f00\u4f1a\u63d0\u9192",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T11:00:01.849849"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-26T11:00:01.851156"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-26T11:00:01.851885"
+    }
+  ]
+}
