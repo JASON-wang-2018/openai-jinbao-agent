@@ -15,10 +15,12 @@ CACHE_FILE = "/home/jason/.openclaw/workspace/stock/data/double_system_cache.jso
 LOG_FILE = "/home/jason/.openclaw/workspace/logs/double_system_monitor.log"
 
 def log(msg):
-    """日志"""
+    """"日志"""
     os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
     with open(LOG_FILE, 'a') as f:
         f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} {msg}\n")
+    # 同时打印到stdout（便于cron调试）
+    print(f"{datetime.now().strftime('%H:%M:%S')} {msg}")
 
 def get_cache():
     """获取缓存"""
