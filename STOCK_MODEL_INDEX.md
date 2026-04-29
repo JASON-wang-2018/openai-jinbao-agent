@@ -187,6 +187,19 @@
 |------|------|------|
 | `zhuangjia_detector.py` | 庄家阶段识别 | ✅ |
 | `zhuangjia_batch.py` | 批量庄家分析 | ✅ |
+| `main_force_scanner.py` | 全市场主力量化扫描 | ✅ v1.0 |
+
+### 主力坐庄量化扫描 (main_force_scanner.py)
+- **功能**: 全市场10,033只股票，4阶段量化打分（吸筹/洗盘/试盘/拉升）
+- **数据**: 通达信二进制.day，16进程并行扫描，15秒完成
+- **过滤**: 自动排除ETF/可转债/B股/极高价/极低价
+- **用法**:
+```bash
+python3 main_force_scanner.py                          # 全量扫描Top50
+python3 main_force_scanner.py --stage 拉升 --top 20   # 只看拉升阶段
+python3 main_force_scanner.py --stage 吸筹 --min-score 80  # 高评分吸筹
+python3 main_force_scanner.py --output result.json    # 导出JSON
+```
 
 ### 数据获取类
 | 脚本 | 功能 | 状态 |

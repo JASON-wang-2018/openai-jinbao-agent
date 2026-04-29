@@ -37,6 +37,11 @@
 2. 读取 knowledge_base/25-双系统模型分析.md
 3. 执行 stock/scripts/double_system_analysis.py
 
+### ⚠️ 重要数据源约定
+- **股票数据**: 通达信本地数据库 `/home/jason/.openclaw/exchanger/vipdoc/sh/lday/` (沪) + `sz/lday/` (深)
+- 分析个股时: 直接从该路径读取，不要询问数据来源
+- 参考: github.com/JASON-wang-2018/TDX-vipdoc
+
 ---
 
 ## 今日新增学习：老股民个股分析模型 v2.0
