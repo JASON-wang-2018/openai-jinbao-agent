@@ -4,30 +4,6 @@
       "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
       "status": "compensating",
       "output": "Starting compensate run",
-      "time": "2026-04-30T04:50:01.231230"
-    },
-    {
-      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
-      "status": "compensated",
-      "output": "Compensate completed",
-      "time": "2026-04-30T04:50:01.233744"
-    },
-    {
-      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
-      "status": "compensating",
-      "output": "Starting compensate run",
-      "time": "2026-04-30T04:50:01.235929"
-    },
-    {
-      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
-      "status": "compensated",
-      "output": "Compensate completed",
-      "time": "2026-04-30T04:50:01.236993"
-    },
-    {
-      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
-      "status": "compensating",
-      "output": "Starting compensate run",
       "time": "2026-04-30T04:55:01.677403"
     },
     {
@@ -599,6 +575,30 @@
       "status": "compensated",
       "output": "Compensate completed",
       "time": "2026-04-30T06:50:01.162211"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-30T06:55:01.633774"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u82f1\u8bed\u6587\u7ae0\u63a8\u9001",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-30T06:55:01.634730"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensating",
+      "output": "Starting compensate run",
+      "time": "2026-04-30T06:55:01.643627"
+    },
+    {
+      "task": "[COMPENSATE] \u6bcf\u65e5\u80a1\u7968\u590d\u76d8 8\u70b9",
+      "status": "compensated",
+      "output": "Compensate completed",
+      "time": "2026-04-30T06:55:01.644467"
     }
   ]
 }
